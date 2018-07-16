@@ -44,7 +44,7 @@ var fsm = new StateMachine({
       const page = this.page;
       try {
         const success = await page.waitForSelector('.Navbar-loggedInAs', {
-          timeout: 7000
+          timeout: 8000
         });
         return true;
       } catch(ex) {
@@ -55,7 +55,11 @@ var fsm = new StateMachine({
     async onBeforeLogin() {
       const page = this.page;
       let isLoggedIn = await this._isLoggedIn();
-      if(isLoggedIn) return;
+      if(isLoggedIn) {
+        let link = await page.waitForSelector('.patientcard-actions-view');
+        await link.click();
+        return;
+      }
 
       const username = await page.$('#username');
       await username.type(login.username);
@@ -86,7 +90,7 @@ var fsm = new StateMachine({
       let item = await page.waitForSelector('.js-weekly');
       item.click();
 
-      sleep.msleep(500);
+      sleep.msleep(800);
 
       let showVals = await page.$('#valuesCheckbox');
       showVals.click();
@@ -98,7 +102,7 @@ var fsm = new StateMachine({
 
 
 puppeteer.launch({
-  headless: false,
+  // headless: false,
   userDataDir: '/tmp/my-profile-directory'
 })
 .then(async browser => {
