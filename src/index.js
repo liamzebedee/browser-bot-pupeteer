@@ -7,10 +7,19 @@ let tidepool = require('./states/tidepool');
 let messenger = require('./states/messenger');
 
 puppeteer.launch({
-  // headless: false,
+  headless: false,
   userDataDir: '/tmp/my-profile-directory'
 })
 .then(async browser => {
+
+  // await runTidepool(browser)
+  await runMessenger(browser)
+  // await messenger.page.waitForNavigation();
+
+  await browser.close();
+});
+
+async function runTidepool(browser) {
   tidepool.browser = browser;
   tidepool.page = await browser.newPage();
   await loadCookies(tidepool.page)
@@ -18,18 +27,15 @@ puppeteer.launch({
   await tidepool.login();
   await tidepool.collectStats();
   await saveCookies(tidepool.page)
+}
 
-
+async function runMessenger(browser) {
   messenger.browser = browser;
   messenger.page = await browser.newPage();
   await messenger.run();
   await messenger.login();
-  await messenger.sendMessages1()
-
-  // await messenger.page.waitForNavigation();
-
-  await browser.close();
-});
+  await messenger.sendMessages()
+}
 
 const COOKIE_PATH = path.resolve(__dirname, './cookies.txt');
 async function loadCookies(page) {

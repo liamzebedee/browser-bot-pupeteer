@@ -3,6 +3,8 @@ const sleep = require('sleep');
 let login = require('../secrets').facebook;
 
 var StateMachine = require('javascript-state-machine');
+var waterfall = require("promise-waterfall");
+
 var fsm = new StateMachine({
   init: 'blank',
   transitions: [
@@ -52,14 +54,10 @@ var fsm = new StateMachine({
         }
     },
 
-    async sendMessages1() {
+    async _sendMessage(url) {
         const page = this.page;
 
-        // page.goto(`https://www.messenger.com/t/sean.edwards.921677`);
-        await Promise.all([
-            page.goto(`https://www.messenger.com/t/100007106130451`),
-            page.waitForNavigation()
-        ]);
+        await page.goto(url);
         
         const upload = await page.waitForSelector("input[title='Add Files']");
 
@@ -77,6 +75,17 @@ var fsm = new StateMachine({
         page.keyboard.press("Enter");
 
         await page.waitFor(7000);
+    },
+
+    async sendMessages() {
+        let urls = [
+            `https://www.messenger.com/t/100007106130451`,
+            `https://www.messenger.com/t/sean.edwards.921677`,
+            `https://www.messenger.com/t/tamara.playne`,
+        ]
+        for(url of urls) {
+            await this._sendMessage(url)
+        }
     }
 
   }
