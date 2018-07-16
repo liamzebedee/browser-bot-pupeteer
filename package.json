@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "node ./src"
+  },
+  "dependencies": {
+    "javascript-state-machine": "^3.1.0",
+    "puppeteer": "^1.6.0",
+    "sleep": "^5.1.1"
+  }
+}

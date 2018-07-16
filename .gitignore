@@ -1,0 +1,3 @@
+node_modules/**
+stats.png
+src/secrets.js
