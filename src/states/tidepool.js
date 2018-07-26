@@ -73,13 +73,15 @@ var fsm = new StateMachine({
 
       let item = await page.waitForSelector('.js-weekly');
       item.click();
-
       sleep.msleep(800);
-
       let showVals = await page.$('#valuesCheckbox');
       showVals.click();
-
       await page.screenshot({ path: './stats.png', fullPage: true })
+
+      item = await page.waitForSelector('.js-basics');
+      item.click()
+      sleep.msleep(800);
+      await page.screenshot({ path: './stats-numtests.png', fullPage: true })
     }
   }
 });
