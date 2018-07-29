@@ -7,12 +7,12 @@ let tidepool = require('./states/tidepool');
 let messenger = require('./states/messenger');
 
 puppeteer.launch({
-  headless: true,
+  headless: false,
   userDataDir: '/tmp/my-profile-directory'
 })
 .then(async browser => {
 
-  await runTidepool(browser)
+  // await runTidepool(browser)
   await runMessenger(browser)
   // await messenger.page.waitForNavigation();
 

@@ -58,12 +58,13 @@ var fsm = new StateMachine({
         const page = this.page;
 
         await page.goto(url);
-        
         await this._sendImage('./stats.png')
         await this._sendImage('./stats-numtests.png')
     },
 
     async _sendImage(img) {
+        const page = this.page;
+
         const upload = await page.waitForSelector("input[title='Add Files']");
 
         await upload.uploadFile(img);
@@ -80,9 +81,11 @@ var fsm = new StateMachine({
         page.keyboard.press("Enter");
 
         await page.waitFor(7000);
-    }
+    },
 
     async sendMessages() {
+        await this.page.goto("https://www.messenger.com/t/");
+
         let urls = [
             `https://www.messenger.com/t/sean.edwards.921677`,
             `https://www.messenger.com/t/tamara.playne`,

@@ -30,6 +30,7 @@ var fsm = new StateMachine({
         const success = await page.waitForSelector('.Navbar-loggedInAs', {
           timeout: 8000
         });
+        console.log(1111)
         return true;
       } catch(ex) {
         return false;
@@ -40,6 +41,12 @@ var fsm = new StateMachine({
       const page = this.page;
       let isLoggedIn = await this._isLoggedIn();
       if(isLoggedIn) {
+        const page = this.page;
+        await page.goto(`https://app.tidepool.org/patients/45e4223adf/data`)
+        const success = await page.waitForSelector('.Navbar-loggedInAs', {
+          timeout: 8000
+        });
+        
         let link = await page.waitForSelector('.patientcard-actions-view');
         await link.click();
         return;
